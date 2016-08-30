@@ -16,8 +16,12 @@ def check_sequence_status(values):
     """
     for value in values:
         #print MAIN_ROAD, SIDE_ROAD
-        if value == 1:
+        if (MAIN_ROAD  and MAIN_ROAD[-1] == value-1) or value == 1:
             MAIN_ROAD.append(value)
+
+        else:
+            SIDE_ROAD.append(value)
+
 
         if SIDE_ROAD and MAIN_ROAD:
             i = True
@@ -34,12 +38,6 @@ def check_sequence_status(values):
 
                 else:
                     i = False
-
-        if MAIN_ROAD  and MAIN_ROAD[-1] == value-1:
-            MAIN_ROAD.append(value)
-
-        else:
-            SIDE_ROAD.append(value)
 
     if len(VALUES) == len(MAIN_ROAD):
         return True
