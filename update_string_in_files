@@ -1,0 +1,48 @@
+import os
+import threading
+
+class CreateThread (threading.Thread):
+
+   def __init__(self, file_path):
+      threading.Thread.__init__(self)
+      self.file_path = file_path
+
+   def run(self):
+      update_file(self.file_path)
+
+def main(path):
+    try:
+        for root, directories, filenames in os.walk(path):
+            for file in filenames:
+                if file.endswith(".html"):
+                    file_path = str(os.path.join(root, file))
+                    file_path = CreateThread(file_path)
+                    file_path.start()
+
+    except Exception as e:
+        print "Exception in main :", e
+
+def update_file(file_path):
+    """
+    Replace the string in the existing file.
+    :param file_path:
+    """
+    found_string = False
+    print "In Update file"
+    with open(file_path, 'r') as file:
+        filedata = file.read()
+        found_string = True if 'david@altice.com' in filedata else False
+        print "Found String :", found_string
+        if found_string:
+            print "In Read :", file_path
+            filedata = filedata.replace('david@altice.com', 'Pratik@altice.com')
+
+    if found_string:
+        print "In Write :", file_path
+        with open(file_path, 'w') as newfile:
+            newfile.write(filedata)
+
+
+if __name__ == "__main__":
+    root_path = raw_input("Please Enter the Directory path :")
+    main(root_path)
